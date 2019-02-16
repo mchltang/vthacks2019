@@ -1,0 +1,12 @@
+<!-- <p>
+  menu-bar works!
+</p> -->
+
+<div class="alert alert-danger" *ngIf="noResult">No Results Found</div>
+
+<input [(ngModel)]="selected"
+       [typeahead]="states"
+       (typeaheadNoResults)="typeaheadNoResults($event)"
+       [typeaheadScrollable]="true"
+       container="body"
+       class="form-control">
