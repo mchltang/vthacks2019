@@ -4,10 +4,10 @@
 
 <div class="alert alert-danger" *ngIf="noResult">No Results Found</div>
 
-<input [(ngModel)]="selected"
+<input class=searchBox
+       [(ngModel)]="selected"
        [typeahead]="data1"
        (typeaheadNoResults)="typeaheadNoResults($event)"
        [typeaheadScrollable]="true"
        placeholder = "Search Anime titles"
-       container="body"
-       class="form-control">
+       container="body">
