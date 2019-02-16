@@ -1,6 +1,6 @@
 import { Injectable, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-
+// import { Observable } from ''
 
 @Injectable({
   providedIn: 'root'
@@ -18,8 +18,6 @@ export class InputParametersService implements OnInit{
   getParams(subPath) {
     this.url += subPath;
     console.log(this.url);
-    this.http.get(this.url).subscribe(data => {
-      console.log(data);
-    });
+    return this.http.get(this.url);
   }
 }
