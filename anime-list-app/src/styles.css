@@ -1,1 +1,14 @@
+
 /* You can add global styles to this file, and also import other style files */
+@font-face { font-family: malfont; src: url('malfont.ttf'); }
+h1 {
+  color: #2623BA;
+  font-family: malfont;
+  font-size: 250%;
+}
+h2{
+  
+}
+* {
+  font-family: Arial, Verdana, sans-serif;
+}
