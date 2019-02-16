@@ -1,5 +1,8 @@
 import { Component, OnInit} from '@angular/core';
 import { FormsModule } from '@angular/forms';
+
+import { InputParametersService } from './../input-parameters.service';
+
 @Component({
   selector: 'app-menu-bar',
   templateUrl: './menu-bar.component.html',
@@ -7,9 +10,10 @@ import { FormsModule } from '@angular/forms';
 })
 export class MenuBarComponent implements OnInit {
 
-  constructor() { }
+  constructor(private inputService: InputParametersService ) { }
 
   ngOnInit() {
+    this.inputService.getParams('get-recommendations');
   }
   selected: string;
   noResult = false;
