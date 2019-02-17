@@ -1,5 +1,5 @@
 from flask import Flask
-from flask_cors import CORS
+from flask_cors import CORS, cross_origin
 from flask import request
 import json
 # How to start the server for Flask on windows...
@@ -13,11 +13,12 @@ app = Flask(__name__)
 CORS(app)
 
 @app.route("/")
-# @cross_origin()
+@cross_origin()
 def hello():
     return "Welcome to the dark side of this webapp."
 
 @app.route("/getAnimeList")
+@cross_origin()
 def getAnimeList():
     import json
     import pandas as pd
@@ -25,19 +26,21 @@ def getAnimeList():
     return json.dumps(anime[' name'].tolist()) # do this so we are sending a python list to the frontend
 
 @app.route("/getRecommendations")
-# @cross_origin()
-# http://10.1.1.1:5000/login?username=alex&password=pw1
-# http://localhost:5000/getRecommendations?anime=kannagi&score=5&medium=False&status=False
+@cross_origin('*')
 def getRecommendations():
-    animeName = request.args.get('anime');
+    title = request.args.get('anime');
+    scoreThreshold = float(request.args.get('minScore'));
+    isTV = request.args.get('tVCheck');
+    isCompleted = request.args.get('completedCheck');
 
-    # showRating = int(request.args.get('score'));
-    # showType = request.args.get('medium');
-    # showStatus = request.args.get('status');
-    return doRecommendations(animeName)
+    return doRecommendations(title,scoreThreshold, isTV, isCompleted)
 
 
 def doRecommendations(title, scoreThreshold = 0., isTV = "no", isCompleted = "no"):
+    # check parameters
+    if(isinstance(scoreThreshold, str)):
+        scoreThreshold = float(scoreThreshold)
+
     ### 1: LIBRARIES
 
     import json
