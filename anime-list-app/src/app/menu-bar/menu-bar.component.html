@@ -27,13 +27,19 @@ Filters (optional)
     [color]="color"
     [checked]="checked"
     [disabled]="disabled">
-    Only non-airing results
+    Only completed results
   </mat-slide-toggle>
-  <mat-form-field id="score" class="example-half-width">
-    <mat-label>no results below score:</mat-label>
-    <input matInput placeholder="Default: 0">
-    <mat-hint align="start"><strong>0-10</strong> </mat-hint>
-  </mat-form-field>
-
+</div>
+  <div class="filters">
+  Only results with ratings higher than {{value}}
+  <mat-slider id="score"
+        class="example-margin"
+        [invert]=false
+        [max]=10
+        [min]=0
+        [step]=0.1
+        [thumbLabel]=true
+        [(ngModel)]="value">
+    </mat-slider>
 
 </div>
