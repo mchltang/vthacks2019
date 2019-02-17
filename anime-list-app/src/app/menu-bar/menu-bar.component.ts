@@ -1,7 +1,7 @@
 import { Component, OnInit} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
-
+import { ResultsAccessService } from './../results-access.service';
 import { InputParametersService } from './../input-parameters.service';
 
 @Component({
@@ -16,7 +16,7 @@ export class MenuBarComponent implements OnInit {
   minScore = 0;
   arguments: String;
   selectedAnime: String;
-  constructor(private inputService: InputParametersService ) { }
+  constructor(private inputService: InputParametersService, private sendDataService: ResultsAccessService ) { }
 
   ngOnInit() { //runs on load
     this.getAnimeList();
@@ -44,6 +44,6 @@ export class MenuBarComponent implements OnInit {
       this.arguments += 'no';
     }
     this.arguments += '&minScore=' + this.minScore;
-    return this.inputService.getRecommendations(this.arguments);
+    this.sendDataService.sendRecommendationResults(this.inputService.getRecommendations(this.arguments));
   }
 }
