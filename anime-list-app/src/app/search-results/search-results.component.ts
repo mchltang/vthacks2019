@@ -6,8 +6,10 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./search-results.component.css']
 })
 export class SearchResultsComponent implements OnInit {
+  recList: string[] = ['Alabama', 'Virginia', 'Washington'];
 
   constructor() { }
+
 
   ngOnInit() {
   }

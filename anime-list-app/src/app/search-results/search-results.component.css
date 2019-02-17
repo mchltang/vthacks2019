@@ -1,5 +1,9 @@
 .results{
   max-width: 900px;
   margin: auto;
-
+}
+.resultCard{
+  font-size: 200%;
+  max-width: 900px;
+  margin: auto;
 }
