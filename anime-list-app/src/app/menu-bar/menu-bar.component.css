@@ -2,10 +2,11 @@
   margin: auto;
   width: 100%;
   min-width: 150px;
-  max-width: 500px;
   padding-bottom: 10px;
 }
-
+.helpMe{
+  width: 875px;
+}
 .searchOptions{
   margin-top: -5px;
 }
@@ -19,6 +20,9 @@
 #score {
   width: 75%;
   margin-top: 20px;
+}
+#searchButton{
+  margin-left: 26px;
 }
 .mat-button-toggle-checked {
     color: "primary";

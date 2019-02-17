@@ -9,8 +9,9 @@ import { InputParametersService } from './input-parameters.service';
 import { AppComponent } from './app.component';
 import { MenuBarComponent } from './menu-bar/menu-bar.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import {MatSlideToggleModule, MatSliderModule, MatInputModule, MatButtonModule, } from '@angular/material';
+import {MatToolbarModule, MatDividerModule, MatSlideToggleModule, MatSliderModule, MatInputModule, MatButtonModule, MatSelectModule} from '@angular/material';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import { SearchResultsComponent } from './search-results/search-results.component';
 
 
 
@@ -18,13 +19,17 @@ import {MatAutocompleteModule} from '@angular/material/autocomplete';
 @NgModule({
   declarations: [
     AppComponent,
-    MenuBarComponent
+    MenuBarComponent,
+    SearchResultsComponent
   ],
   imports: [
+    MatToolbarModule,
     BrowserModule,
+    MatDividerModule,
     MatInputModule,
     MatButtonModule,
     MatSliderModule,
+    MatSelectModule,
     MatSlideToggleModule,
     FormsModule,
     MatAutocompleteModule,
