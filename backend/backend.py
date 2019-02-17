@@ -40,7 +40,7 @@ def getRecommendations():
 def doRecommendations(title, scoreThreshold = 0, isTV = False, isCompleted = False):
     ### 1: LIBRARIES
 
-	import json
+    import json
     import nltk
     import string
     import pandas as pd
