@@ -33,7 +33,7 @@ def getRecommendations():
     return doRecommendations(animeName, showRating, showType, showStatus)
 
 
-def doRecommendations(title, scoreThreshold, isTV, isCompleted):
+def doRecommendations(title, scoreThreshold = 0, isTV = False, isCompleted = False):
     ### 1: LIBRARIES
 
 
