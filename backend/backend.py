@@ -45,6 +45,9 @@ def doRecommendations(title, scoreThreshold = 0, isTV = False, isCompleted = Fal
     from sklearn.metrics.pairwise import cosine_similarity
     from sklearn.feature_extraction.text import TfidfVectorizer, CountVectorizer
 
+    # let nltk download corpus
+    nltk.download('punkt')
+
     ### 2: DATASET
 
     anime = pd.read_csv("Anime.csv")
