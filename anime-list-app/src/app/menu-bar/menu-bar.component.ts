@@ -1,6 +1,7 @@
 import { Component, OnInit} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
+
 import { InputParametersService } from './../input-parameters.service';
 
 @Component({
@@ -14,7 +15,7 @@ export class MenuBarComponent implements OnInit {
   constructor(private inputService: InputParametersService ) { }
 
   ngOnInit() { //runs on load
-    this.animeList = this.getAnimeList();
+    this.getAnimeList();
     console.log(this.animeList);
   }
   getRecommendations() { //only runs when when user submits
@@ -24,7 +25,7 @@ export class MenuBarComponent implements OnInit {
   }
 
   getAnimeList() { //runs on ignite and on trigger reset
-    return this.inputService.getAnimeList('getAnimeList');
+    return this.inputService.getAnimeList('getAnimeList').subscribe(res => {this.animeList = res});
     // console.log(this.data1);
   }
   selected: string;

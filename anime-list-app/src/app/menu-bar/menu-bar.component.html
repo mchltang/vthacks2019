@@ -2,17 +2,15 @@
   menu-bar works!
 </p> -->
 
-<div class="alert alert-danger" *ngIf="noResult">No Results Found</div>
 <div class="searchBox">
-    <mat-form-field class="example-full-width">
-      <input matInput placeholder="Search anime titles" [matAutocomplete]="auto">
-      <mat-autocomplete #auto="matAutocomplete">
-      <mat-option *ngFor="let option of filteredOptions | async" [value]="animeList">
-        {{animeList}}
-      </mat-option>
-    </mat-autocomplete>
-    <button mat-button matSuffix id="searchButton" color="basic" onclick="performSearch">Search</button>
-    </mat-form-field>
+      <!-- <input placeholder="Search anime titles">
+      <option *ngFor="let option of animeList">
+        {{option.value}}
+      </option> -->
+      <select>
+        <option *ngFor="let anime of animeList">{{anime}} </option>
+      </select>
+    <button id="searchButton" color="basic" onclick="performSearch()">Search</button>
 </div>
 Filters (optional)
 
