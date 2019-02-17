@@ -14,15 +14,28 @@
       <button mat-button matSuffix id="searchButton" color="basic" onclick="performSearch">Search</button>
     </mat-form-field>
 </div>
+Filters (optional)
 
-<!-- <input class="searchBox"
-       [(ngModel)]="selected"
-       [typeahead]="animeList"
-       (typeaheadNoResults)="typeaheadNoResults($event)"
-       [typeaheadScrollable]="true"
-       placeholder = "Search Anime titles"
-       container="body"> -->
+<div class="filters">
+  <mat-slide-toggle matSuffix
+    class="example-margin"
+    [color]="color"
+    [checked]="checked"
+    [disabled]="disabled">
+    Only TV results
+  </mat-slide-toggle>
+  <mat-slide-toggle matSuffix
+    class="example-margin"
+    [color]="color"
+    [checked]="checked"
+    [disabled]="disabled">
+    Only non-airing results
+  </mat-slide-toggle>
+  <mat-form-field id="score" class="example-half-width">
+    <mat-label>no results below score:</mat-label>
+    <input matInput placeholder="Default: 0">
+    <mat-hint align="start"><strong>0-10</strong> </mat-hint>
+  </mat-form-field>
 
-<div class="searchOptions">
-  <mat-button-toggle color="primary" value="showFilters">Show Filters</mat-button-toggle>
+
 </div>

@@ -9,7 +9,7 @@ import { InputParametersService } from './input-parameters.service';
 import { AppComponent } from './app.component';
 import { MenuBarComponent } from './menu-bar/menu-bar.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import {MatButtonToggleModule, MatInputModule, MatButtonModule, MatCheckboxModule} from '@angular/material';
+import {MatSlideToggleModule, MatInputModule, MatButtonModule, } from '@angular/material';
 
 
 
@@ -22,7 +22,7 @@ import {MatButtonToggleModule, MatInputModule, MatButtonModule, MatCheckboxModul
     BrowserModule,
     MatInputModule,
     MatButtonModule,
-    MatButtonToggleModule,
+    MatSlideToggleModule,
     FormsModule,
     HttpClientModule,
     TypeaheadModule.forRoot(),
