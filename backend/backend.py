@@ -40,6 +40,7 @@ def getRecommendations():
 def doRecommendations(title, scoreThreshold = 0, isTV = False, isCompleted = False):
     ### 1: LIBRARIES
 
+	import json
     import nltk
     import string
     import pandas as pd
@@ -194,7 +195,7 @@ def doRecommendations(title, scoreThreshold = 0, isTV = False, isCompleted = Fal
         numFiltered = [i for i in scoreFiltered[1 : min(len(scoreFiltered), numberOfRecommendations + 1)]]
 
         # return anime names
-        return (anime['name'].iloc[numFiltered]).tolist() # do this so we are sending a python list to the frontend
+        return json.dumps((anime['name'].iloc[numFiltered]).tolist()) # do this so we are sending a python list to the frontend
 
     numRecommendations = 10 # HOW MANY RECOMMENDATIONS DO WE WANT TO SHOW? TEMPORARY VALUE
     return filterRecommendations(sortedBySimilarityArray = generateRecommendations(title),
