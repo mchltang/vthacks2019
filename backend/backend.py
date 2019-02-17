@@ -22,7 +22,7 @@ def getAnimeList():
     import json
     import pandas as pd
     anime = pd.read_csv("Anime.csv")
-    return json.dumps(sorted(anime[' name'].tolist(), key = lambda s : s.casefold())) # do this so we are sending a python list to the frontend
+    return json.dumps(anime[' name'].tolist()) # do this so we are sending a python list to the frontend
 
 @app.route("/getRecommendations")
 # @cross_origin()
