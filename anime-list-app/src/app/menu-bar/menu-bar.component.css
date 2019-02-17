@@ -16,6 +16,10 @@
   padding-left: 10px;
   padding-right: 10px;
 }
+#score {
+  width: 75%;
+  margin-top: 20px;
+}
 .mat-button-toggle-checked {
     color: "primary";
     }
@@ -23,5 +27,6 @@
       margin: auto;
       padding-top: 10px;
       width: 25%;
-      min-width: 50px;
+      min-width: 500px;
+      margin-bottom: 20px;
     }
