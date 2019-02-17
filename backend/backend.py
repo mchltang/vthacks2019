@@ -1,5 +1,6 @@
 from flask import Flask
 from flask_cors import CORS
+from flask import request
 import json
 # How to start the server for Flask on windows...
 # $ export FLASK_APP=backend.py
@@ -23,8 +24,10 @@ def getAnimeList():
     anime = pd.read_csv("Anime.csv")
     return json.dumps(anime[' name'].tolist())
 
-@app.route("/get-recommendations")
+@app.route("/getRecommendations")
 # @cross_origin()
+# http://10.1.1.1:5000/login?username=alex&password=pw1
+# http://localhost:5000/getRecommendations?anime=%22kannagi%22&score=5&medium=False&status=False
 def getRecommendations():
     animeName = request.args.get('anime');
     showRating = request.args.get('score');
