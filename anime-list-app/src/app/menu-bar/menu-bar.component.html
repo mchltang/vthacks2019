@@ -14,20 +14,20 @@ Filters (optional)
   <mat-slide-toggle matSuffix
     class="example-margin"
     [color]="color"
-    [checked]="checked"
+    [checked]="tVCheck"
     [disabled]="disabled">
     Only TV results
   </mat-slide-toggle>
   <mat-slide-toggle matSuffix
     class="example-margin"
     [color]="color"
-    [checked]="checked"
+    [checked]="CompletedCheck"
     [disabled]="disabled">
     Only completed results
   </mat-slide-toggle>
 </div>
   <div class="filters">
-  Only results with ratings higher than {{value}}
+  Only results with ratings higher than {{minScore}}
   <mat-slider id="score"
         class="example-margin"
         [invert]=false
@@ -35,7 +35,7 @@ Filters (optional)
         [min]=0
         [step]=0.1
         [thumbLabel]=true
-        [(ngModel)]="value">
+        [(ngModel)]="minScore">
     </mat-slider>
 
 </div>

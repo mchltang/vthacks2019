@@ -11,6 +11,9 @@ import { InputParametersService } from './../input-parameters.service';
 })
 export class MenuBarComponent implements OnInit {
   animeList:any = [];
+  tVCheck = false;
+  completedCheck = false;
+  minScore = 0;
   arguments: String;
   selectedAnime: String;
   constructor(private inputService: InputParametersService ) { }
@@ -26,8 +29,21 @@ export class MenuBarComponent implements OnInit {
   }
 
   getRecommendations() { //only runs when when user submits
-    this.arguments = 'getRecommendations';
-    this.arguments += '?anime=' + this.selectedAnime;
+    this.arguments = 'getRecommendations?anime=' + this.selectedAnime + '&tVCheck=';
+    if (this.tVCheck == true) {
+      this.arguments += 'yes';
+    }
+    else {
+      this.arguments += 'no';
+    }
+    this.arguments += '&completedCheck=';
+    if (this.completedCheck == true) {
+      this.arguments += 'yes';
+    }
+    else {
+      this.arguments += 'no';
+    }
+    this.arguments += '&minScore=' + this.minScore;
     return this.inputService.getRecommendations(this.arguments);
   }
 }
