@@ -19,8 +19,9 @@ def hello():
 @app.route("/getAnimeList")
 def getAnimeList():
     import pandas as pd
+    import json
     anime = pd.read_csv("Anime.csv")
-    return anime[' name'].values
+    return json.dumps(anime[' name'].tolist())
 
 @app.route("/get-recommendations")
 # @cross_origin()
@@ -37,6 +38,7 @@ def doRecommendations(title, scoreThreshold, isTV, isCompleted):
 
 
     import nltk
+    import json
     import string
     import pandas as pd
     from nltk.stem.porter import PorterStemmer
@@ -187,7 +189,7 @@ def doRecommendations(title, scoreThreshold, isTV, isCompleted):
         numFiltered = [i for i in scoreFiltered[1 : min(len(scoreFiltered), numberOfRecommendations + 1)]]
 
         # return anime names
-        return (anime['name'].iloc[numFiltered]).values # do this so we are sending an array to the frontend
+        return json.dumps((anime['name'].iloc[numFiltered]).tolist()) # do this so we are sending an array to the frontend
 
     numRecommendations = 10 # HOW MANY RECOMMENDATIONS DO WE WANT TO SHOW? TEMPORARY VALUE
     return filterRecommendations(sortedBySimilarityArray = generateRecommendations(title),

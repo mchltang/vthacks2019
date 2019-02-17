@@ -4,7 +4,7 @@
 def getAnimeNames():
     import pandas as pd
     anime = pd.read_csv("Anime.csv")
-    return anime[' name'].values
+    return anime[' name'].tolist() # do this so we are sending a python list to the frontend
 
 def recommend(title, scoreThreshold, isTV, isCompleted):
     ### 1: LIBRARIES
@@ -160,7 +160,7 @@ def recommend(title, scoreThreshold, isTV, isCompleted):
         numFiltered = [i for i in scoreFiltered[1 : min(len(scoreFiltered), numberOfRecommendations + 1)]]
 
         # return anime names
-        return (anime['name'].iloc[numFiltered]).values # do this so we are sending an array to the frontend
+        return (anime['name'].iloc[numFiltered]).tolist() # do this so we are sending a python list to the frontend
 
     numRecommendations = 10 # HOW MANY RECOMMENDATIONS DO WE WANT TO SHOW? TEMPORARY VALUE
     return filterRecommendations(sortedBySimilarityArray = generateRecommendations(title),
