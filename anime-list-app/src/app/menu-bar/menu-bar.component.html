@@ -1,24 +1,14 @@
-<div class="searchBox">
-<<<<<<< HEAD
-  <mat-form-field class="helpMe">
-      <select matNativeControl required
-              placeholder="Select an anime title"
-              [(ngModel)]="selectedAnime">
-        <option *ngFor="let anime of animeList" [(ngValue)]=anime>{{anime}}</option>
-      </select>
-    <button mat-raised-button matSuffix id="searchButton" color="basic" (click)="getRecommendations()">Search</button>
-  </mat-form-field>
-=======
- <mat-form-field class="helpMe">
-     <select matNativeControl required
-             placeholder="Select an anime title"
-             [(ngModel)]="selectedAnime">
-       <option *ngFor="let anime of animeList" [(ngValue)]=anime>{{anime}}</option>
-     </select>
-   <button mat-raised-button matSuffix id="searchButton" color="basic" (click)="getRecommendations()">Search</button>
- </mat-form-field>
->>>>>>> 3f6502f21ce87d0cf8b9fe9fb12093f5a55c83e5
-</div>
+<div class="container">
+  <div class="searchBox">
+   <mat-form-field class="helpMe">
+       <select matNativeControl required
+               placeholder="Select an anime title"
+               [(ngModel)]="selectedAnime">
+         <option *ngFor="let anime of animeList" [(ngValue)]=anime>{{anime}}</option>
+       </select>
+     <button mat-raised-button matSuffix id="searchButton" color="basic" (click)="getRecommendations()">Search</button>
+   </mat-form-field>
+  </div>
 Filters (optional)
 
 <div class="filters">
@@ -37,7 +27,7 @@ Filters (optional)
     Only completed results
   </mat-slide-toggle>
 </div>
-  <div class="filters">
+  <div class="filters" style="margin-bottom:50px">
   Only results with ratings higher than {{value}}
   <mat-slider id="score"
         class="example-margin"
@@ -49,4 +39,5 @@ Filters (optional)
         [(ngModel)]="value">
     </mat-slider>
 
+</div>
 </div>
