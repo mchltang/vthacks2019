@@ -1,6 +1,5 @@
 from flask import Flask
 from flask_cors import CORS
-from flask import request
 import json
 # How to start the server for Flask on windows...
 # $ export FLASK_APP=backend.py
@@ -15,21 +14,184 @@ CORS(app)
 @app.route("/")
 # @cross_origin()
 def hello():
-    return "Hello World!"
+    return "Welcome to the dark side of this webapp."
 
 @app.route("/getAnimeList")
 def getAnimeList():
-    return json.dumps(["1","Donkey","Santa","33","0199212"])
-
+    import pandas as pd
+    anime = pd.read_csv("Anime.csv")
+    return anime[' name'].values
 
 @app.route("/get-recommendations")
 # @cross_origin()
 def getRecommendations():
-    # http://10.1.1.1:5000/login?username=alex&password=pw1
     animeName = request.args.get('anime');
     showRating = request.args.get('score');
     showType = request.args.get('medium');
     showStatus = request.args.get('status');
-    # genreBlacklist = request.args.get('blacklist');
-    #return MichaelMagicMethod();
-    return json.dumps(["1","Donkey","Santa","33","0199212"])
+    return doRecommendations(animeName, showRating, showType, showStatus)
+
+
+def doRecommendations(title, scoreThreshold, isTV, isCompleted):
+    ### 1: LIBRARIES
+
+
+    import nltk
+    import string
+    import pandas as pd
+    from nltk.stem.porter import PorterStemmer
+    from sklearn.metrics.pairwise import cosine_similarity
+    from sklearn.feature_extraction.text import TfidfVectorizer, CountVectorizer
+
+    ### 2: DATASET
+
+    anime = pd.read_csv("Anime.csv")
+    # let's get some information
+    # print("Shape of dataset: ", anime.shape)
+
+    # let's clean our dataset a little bit
+    # fix column names so we don't have to deal with leading spaces
+    anime = anime.rename(columns={" name": "name",
+                                  " title_english": "title_english",
+                                  " title_japanese": "title_japanese",
+                                  " title_synonyms": "title_synonyms",
+                                  " type": "type",
+                                  " source": "source",
+                                  " producers": "producers",
+                                  " genre": "genre",
+                                  " studio": "studio",
+                                  " episodes": "episodes",
+                                  " status": "status",
+                                  " airing": "airing",
+                                  " aired": "aired",
+                                  " duration": "duration",
+                                  " rating": "rating",
+                                  " score": "score",
+                                  " scored_by": "scored_by",
+                                  " rank": "rank",
+                                  " popularity": "popularity",
+                                  " members": "members",
+                                  " favorites": "favorites",
+                                  " synopsis": "synopsis",
+                                  " background": "background",
+                                  " premiered": "premiered",
+                                  " broadcast": "broadcast",
+                                  " related": "related"})
+
+    # lots of synopsis are missing. we will replace NaN values with empty string
+    anime['synopsis'].fillna("", inplace=True)
+
+    # CountVectorizer treats all punctuation as delimiter and generates tokens based on that.
+    def cleanGenre(anime):
+        if (isinstance(anime['genre'], str)):
+            toReturn = anime['genre']
+            toReturn = toReturn.replace("[", "")
+            toReturn = toReturn.replace("]", "")
+            toReturn = toReturn.replace("'", "")
+            toReturn = toReturn.replace(", ", ",")
+            toReturn = toReturn.replace(" ", "")
+            toReturn = toReturn.replace("-", "")
+        else:
+            toReturn = ""
+        return toReturn
+
+    # clean genre
+    anime['genre'] = anime.apply(cleanGenre, axis=1)
+
+    # fill in missing scores with 0, we don't care about them
+    anime['score'].fillna(0.00, inplace = True)
+
+    ### 3: SIMILARITY MATRICES
+    ### Ideally for this section, we would generate multiple similarity matrices, which will then
+    ### be used to calculate a weighted average.
+
+    # get indicies
+    indices = pd.Series(anime.index, index=anime['name'])
+
+    # SYNOPSIS SIMILARITY MATRIX
+    # create a tokenizer to stem our tokens
+    def tokenize(text):  # takes care of stemming
+        tokens = nltk.word_tokenize(text)
+        stemmed = []
+        for item in tokens:
+            stemmed.append(PorterStemmer().stem(item))
+        return stemmed
+    # create custom token dictionary
+    token_dict = anime['synopsis'].copy()
+    # lowercase and remove punctuation
+    for i in token_dict.index:
+        token_dict[i] = token_dict[i].lower().translate(str.maketrans('', '', string.punctuation))
+    # vectorize our synposis' using TF
+    tfidf = TfidfVectorizer(tokenizer=tokenize, stop_words="english")
+    # Learn vocabulary and IDF, return term-document matrix.
+    tfidfMatrix = tfidf.fit_transform(token_dict)  # use custom token dictionary to remove uppercase and punctuation
+    # the actual similarity matrices. values inside represent the cosine similarity score between the two shows.
+    # close to 1 = similar, close to 0 = unrelated, close to -1 = opposite
+    synopsisSimilarityMatrix = cosine_similarity(tfidfMatrix, tfidfMatrix)
+
+    # GENRE SIMILARITY MATRIX
+    # vectorize genres with CountVectorizer
+    genreVector = CountVectorizer()
+    # Learn the vocabulary dictionary and return term-document matrix.
+    genreMatrix = genreVector.fit_transform(anime['genre'])
+    genreSimilarityMatrix = cosine_similarity(genreMatrix, genreMatrix)
+
+    # debug statements for similarity matrices
+    # print(synopsisSimilarityMatrix)
+    # print(genreSimilarityMatrix)
+
+    ### 4: RECOMMENDATION - Similarity matrices and scoring lists are weighted here
+    # This method will return ALL anime based on recommendation
+    def generateRecommendations(title):
+        # what index is this show located at? assume the title is correctly spelled/formatted
+        index = indices[title]
+
+        # get the cosine similarity score based on feature type
+        synopsisScore = list(enumerate(synopsisSimilarityMatrix[index]))
+        genreScore = list(enumerate(genreSimilarityMatrix[index]))
+
+        # sort based on anime index first so we can combine weights
+        synopsisScoreSorted = sorted(synopsisScore, key=lambda x: x[0], reverse=False)
+        genreScoreSorted = sorted(genreScore, key=lambda x: x[0], reverse=False)
+
+        # combine all cosine similarity scores into one cumulative score
+        combinedScoresIterator = zip(synopsisScoreSorted,
+                                     genreScoreSorted,)
+
+        # debug statement
+        # print(set(combinedScoresIterator))
+
+        combinedScore = [(index,
+                          ##########################################################
+                          (synScore + genScore) / 2)  # WEIGHTING IS CONTROLLED HERE
+                         ##########################################################
+                         for (index, synScore),
+                             (_, genScore),
+                         in combinedScoresIterator] # UNPACKED VALUES
+        combinedScoreSorted = sorted(combinedScore, key=lambda x: x[1], reverse=True)
+
+        # return all of the sorted shows, to be filtered after this
+        return combinedScoreSorted
+
+    ### DATA FILTERING
+    def filterRecommendations(sortedBySimilarityArray, numberOfRecommendations, scoreThreshold, isTV, isCompleted):
+        # grab indicies of all similarity-sorted shows
+        allSortedIndicies = [i[0] for i in sortedBySimilarityArray[0 : len(sortedBySimilarityArray)]]
+
+        # remove all shows with score below score threshold
+        scoreFiltered = [i for i in allSortedIndicies if anime['score'][i] >= scoreThreshold]
+
+        # TODO: do the other filtering here
+
+        # only grab the top numberOfRecommendations # of shows
+        numFiltered = [i for i in scoreFiltered[1 : min(len(scoreFiltered), numberOfRecommendations + 1)]]
+
+        # return anime names
+        return (anime['name'].iloc[numFiltered]).values # do this so we are sending an array to the frontend
+
+    numRecommendations = 10 # HOW MANY RECOMMENDATIONS DO WE WANT TO SHOW? TEMPORARY VALUE
+    return filterRecommendations(sortedBySimilarityArray = generateRecommendations(title),
+                                 numberOfRecommendations = numRecommendations,
+                                 scoreThreshold = scoreThreshold,
+                                 isTV = isTV,
+                                 isCompleted = isCompleted)

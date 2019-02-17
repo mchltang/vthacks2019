@@ -4,7 +4,6 @@
 
 <div class="alert alert-danger" *ngIf="noResult">No Results Found</div>
 <div class="searchBox">
-  <form class="example-form">
     <mat-form-field class="example-full-width">
       <input matInput placeholder="Search anime titles"
              [(ngModel)]="selected"
@@ -14,7 +13,6 @@
 
       <button mat-button matSuffix id="searchButton" color="basic" onclick="performSearch">Search</button>
     </mat-form-field>
-  </form>
 </div>
 
 <!-- <input class="searchBox"
