@@ -26,13 +26,14 @@ def getAnimeList():
     return json.dumps(anime[' name'].tolist()) # do this so we are sending a python list to the frontend
 
 @app.route("/getRecommendations")
-@cross_origin()
+@cross_origin('*')
 def getRecommendations():
     title = request.args.get('anime');
+    scoreThreshold = float(request.args.get('minScore'));
     isTV = request.args.get('tVCheck');
     isCompleted = request.args.get('completedCheck');
-    scoreThreshold = float(request.args.get('minScore'));
-    return doRecommendations(title,isTV,isCompleted,scoreThreshold)
+
+    return doRecommendations(title,scoreThreshold, isTV, isCompleted)
 
 
 def doRecommendations(title, scoreThreshold = 0., isTV = "no", isCompleted = "no"):
