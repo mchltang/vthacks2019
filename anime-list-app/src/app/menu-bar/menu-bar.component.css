@@ -1,10 +1,17 @@
 .searchBox{
-  border: transparent;
-  padding: 10px;
-  padding-left: 15px;
-  outline: none;
-  width: 492px;
-  box-shadow: 2px 5px 15px rgba(0,0,0,0.2);
-  font-size: 150%;
-  margin-bottom: 20px;
+  margin: auto;
+  width: 100%;
+  min-width: 150px;
+  max-width: 500px;
+}
+#searchButton{
+}
+#filterButton{
+  margin-left: 8px;
+}
+.searchOptions{
+  margin-top: -5px;
+}
+.example-full-width {
+  width: 100%;
 }
