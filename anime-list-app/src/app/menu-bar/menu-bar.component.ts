@@ -18,7 +18,7 @@ export class MenuBarComponent implements OnInit {
     console.log(this.animeList);
   }
   getRecommendations() { //only runs when when user submits
-    this.arguments = 'get-recommendations';
+    this.arguments = 'getRecommendations';
     this.arguments += '?animeName=' + this.selected;
     return this.inputService.getRecommendations(this.arguments);
   }

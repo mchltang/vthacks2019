@@ -27,19 +27,18 @@ def getAnimeList():
 @app.route("/getRecommendations")
 # @cross_origin()
 # http://10.1.1.1:5000/login?username=alex&password=pw1
-# http://localhost:5000/getRecommendations?anime=%22kannagi%22&score=5&medium=False&status=False
+# http://localhost:5000/getRecommendations?anime=kannagi&score=5&medium=False&status=False
 def getRecommendations():
     animeName = request.args.get('anime');
-    showRating = request.args.get('score');
-    showType = request.args.get('medium');
-    showStatus = request.args.get('status');
-    return doRecommendations(animeName, showRating, showType, showStatus)
+
+    # showRating = int(request.args.get('score'));
+    # showType = request.args.get('medium');
+    # showStatus = request.args.get('status');
+    return doRecommendations(animeName)
 
 
 def doRecommendations(title, scoreThreshold = 0, isTV = False, isCompleted = False):
     ### 1: LIBRARIES
-
-
     import nltk
     import json
     import string
