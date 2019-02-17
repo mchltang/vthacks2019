@@ -39,8 +39,8 @@ def getRecommendations():
 
 def doRecommendations(title, scoreThreshold = 0, isTV = False, isCompleted = False):
     ### 1: LIBRARIES
+
     import nltk
-    import json
     import string
     import pandas as pd
     from nltk.stem.porter import PorterStemmer
@@ -112,8 +112,11 @@ def doRecommendations(title, scoreThreshold = 0, isTV = False, isCompleted = Fal
     ### Ideally for this section, we would generate multiple similarity matrices, which will then
     ### be used to calculate a weighted average.
 
-    # get indicies
+    # get a series relating the names of anime to their indicies in the anime table
     indices = pd.Series(anime.index, index=anime['name'])
+
+    # what index is this show located at? assume the title is correctly spelled/formatted
+    titleIndex = indices[title]
 
     # SYNOPSIS SIMILARITY MATRIX
     # create a tokenizer to stem our tokens
@@ -134,14 +137,14 @@ def doRecommendations(title, scoreThreshold = 0, isTV = False, isCompleted = Fal
     tfidfMatrix = tfidf.fit_transform(token_dict)  # use custom token dictionary to remove uppercase and punctuation
     # the actual similarity matrices. values inside represent the cosine similarity score between the two shows.
     # close to 1 = similar, close to 0 = unrelated, close to -1 = opposite
-    synopsisSimilarityMatrix = cosine_similarity(tfidfMatrix, tfidfMatrix)
+    synopsisSimilarityMatrix = cosine_similarity(tfidfMatrix[titleIndex], tfidfMatrix)
 
     # GENRE SIMILARITY MATRIX
     # vectorize genres with CountVectorizer
     genreVector = CountVectorizer()
     # Learn the vocabulary dictionary and return term-document matrix.
     genreMatrix = genreVector.fit_transform(anime['genre'])
-    genreSimilarityMatrix = cosine_similarity(genreMatrix, genreMatrix)
+    genreSimilarityMatrix = cosine_similarity(genreMatrix[titleIndex], genreMatrix)
 
     # debug statements for similarity matrices
     # print(synopsisSimilarityMatrix)
@@ -150,12 +153,9 @@ def doRecommendations(title, scoreThreshold = 0, isTV = False, isCompleted = Fal
     ### 4: RECOMMENDATION - Similarity matrices and scoring lists are weighted here
     # This method will return ALL anime based on recommendation
     def generateRecommendations(title):
-        # what index is this show located at? assume the title is correctly spelled/formatted
-        index = indices[title]
-
         # get the cosine similarity score based on feature type
-        synopsisScore = list(enumerate(synopsisSimilarityMatrix[index]))
-        genreScore = list(enumerate(genreSimilarityMatrix[index]))
+        synopsisScore = list(enumerate(synopsisSimilarityMatrix[0]))
+        genreScore = list(enumerate(genreSimilarityMatrix[0]))
 
         # sort based on anime index first so we can combine weights
         synopsisScoreSorted = sorted(synopsisScore, key=lambda x: x[0], reverse=False)
@@ -194,7 +194,7 @@ def doRecommendations(title, scoreThreshold = 0, isTV = False, isCompleted = Fal
         numFiltered = [i for i in scoreFiltered[1 : min(len(scoreFiltered), numberOfRecommendations + 1)]]
 
         # return anime names
-        return json.dumps((anime['name'].iloc[numFiltered]).tolist()) # do this so we are sending an array to the frontend
+        return (anime['name'].iloc[numFiltered]).tolist() # do this so we are sending a python list to the frontend
 
     numRecommendations = 10 # HOW MANY RECOMMENDATIONS DO WE WANT TO SHOW? TEMPORARY VALUE
     return filterRecommendations(sortedBySimilarityArray = generateRecommendations(title),
