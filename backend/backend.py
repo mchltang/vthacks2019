@@ -19,10 +19,12 @@ def hello():
 
 @app.route("/getAnimeList")
 def getAnimeList():
-    import pandas as pd
     import json
+    import pandas as pd
     anime = pd.read_csv("Anime.csv")
-    return json.dumps(anime[' name'].tolist())
+    convertedList = anime[' name'].tolist()  # do this so we are sending a python list to the frontend
+    convertedList.sort()
+    return json.dumps(convertedList)
 
 @app.route("/getRecommendations")
 # @cross_origin()
