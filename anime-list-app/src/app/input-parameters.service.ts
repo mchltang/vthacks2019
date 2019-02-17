@@ -16,7 +16,10 @@ export class InputParametersService implements OnInit{
   }
   getRecommendations(subPath) {
     this.url += subPath;
-    return this.http.get(this.url);
+    console.log(this.url);
+    return this.http.get(this.url).subscribe(res => {
+      console.log(res);
+    });
   }
 
   getAnimeList(subPath) {

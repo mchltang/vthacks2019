@@ -3,6 +3,7 @@
 </p> -->
 
 <div class="searchBox">
+<<<<<<< HEAD
       <mat-form-field class = "helpMe">
         <select matNativeControl required
                 placeholder="Select an anime title">
@@ -14,6 +15,16 @@
     color="basic"
     onclick="performSearch()">Search</button>
         </mat-form-field>
+=======
+      <!-- <input placeholder="Search anime titles">
+      <option *ngFor="let option of animeList">
+        {{option.value}}
+      </option> -->
+      <select [(ngModel)]="selectedAnime">
+        <option *ngFor="let anime of animeList" [(ngValue)]=anime>{{anime}}</option>
+      </select>
+    <button id="searchButton" color="basic" (click)="performSearch()">Search</button>
+>>>>>>> 35d58c16486bf92d563528a66961fbc533a5f87c
 </div>
 Filters (optional)
 
