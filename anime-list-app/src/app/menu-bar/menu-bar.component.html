@@ -7,10 +7,10 @@
       <option *ngFor="let option of animeList">
         {{option.value}}
       </option> -->
-      <select>
-        <option *ngFor="let anime of animeList">{{anime}} </option>
+      <select [(ngModel)]="selectedAnime">
+        <option *ngFor="let anime of animeList" [(ngValue)]=anime>{{anime}}</option>
       </select>
-    <button id="searchButton" color="basic" onclick="performSearch()">Search</button>
+    <button id="searchButton" color="basic" (click)="performSearch()">Search</button>
 </div>
 Filters (optional)
 
