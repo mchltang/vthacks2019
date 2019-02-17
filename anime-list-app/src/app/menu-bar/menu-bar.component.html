@@ -1,22 +1,12 @@
-<!-- <p>
-  menu-bar works!
-</p> -->
-
 <div class="searchBox">
-      <mat-form-field class = "helpMe">
-        <select matNativeControl required
-                placeholder="Select an anime title">
-        <option *ngFor="let anime of animeList">
-          {{anime}} </option>
-        </select>
-
-    <button mat-raised-button matSuffix id="searchButton"
-    color="basic"
-    onclick="performSearch()">Search</button>
-        </mat-form-field>
-=======
-    <button id="searchButton" color="basic" (click)="getRecommendations()">Search</button>
->>>>>>> Stashed changes
+ <mat-form-field class="helpMe">
+     <select matNativeControl required
+             placeholder="Select an anime title"
+             [(ngModel)]="selectedAnime">
+       <option *ngFor="let anime of animeList" [(ngValue)]=anime>{{anime}}</option>
+     </select>
+   <button mat-raised-button matSuffix id="searchButton" color="basic" (click)="getRecommendations()">Search</button>
+ </mat-form-field>
 </div>
 Filters (optional)
 

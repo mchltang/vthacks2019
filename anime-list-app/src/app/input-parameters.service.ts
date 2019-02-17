@@ -10,14 +10,14 @@ export class InputParametersService implements OnInit{
   constructor(private http: HttpClient) { }
 
   url = 'http://localhost:5000/';
-  url2: String;
-  url1: String;
+  url2;
+  url1;
 
   ngOnInit() {
 
   }
   getRecommendations(subPath) {
-    url1 = this.url + subPath;
+    this.url1 = this.url + subPath;
     console.log(this.url1);
     return this.http.get(this.url1).subscribe(res => {
       console.log(res);
@@ -25,7 +25,7 @@ export class InputParametersService implements OnInit{
   }
 
   getAnimeList(subPath) {
-    url2 = this.url + subPath;
+    this.url2 = this.url + subPath;
     console.log(this.url2);
     return this.http.get(this.url2);
   }
