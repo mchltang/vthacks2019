@@ -10,6 +10,8 @@ import { AppComponent } from './app.component';
 import { MenuBarComponent } from './menu-bar/menu-bar.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatSlideToggleModule, MatInputModule, MatButtonModule, } from '@angular/material';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
+
 
 
 
@@ -24,6 +26,7 @@ import {MatSlideToggleModule, MatInputModule, MatButtonModule, } from '@angular/
     MatButtonModule,
     MatSlideToggleModule,
     FormsModule,
+    MatAutocompleteModule,
     HttpClientModule,
     TypeaheadModule.forRoot(),
     BrowserAnimationsModule

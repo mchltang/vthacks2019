@@ -5,13 +5,13 @@
 <div class="alert alert-danger" *ngIf="noResult">No Results Found</div>
 <div class="searchBox">
     <mat-form-field class="example-full-width">
-      <input matInput placeholder="Search anime titles"
-             [(ngModel)]="selected"
-             [typeahead]="data1"
-             (typeaheadNoResults)="typeaheadNoResults($event)"
-             [typeaheadScrollable]="true">
-
-      <button mat-button matSuffix id="searchButton" color="basic" onclick="performSearch">Search</button>
+      <input matInput placeholder="Search anime titles" [matAutocomplete]="auto">
+      <mat-autocomplete #auto="matAutocomplete">
+      <mat-option *ngFor="let option of filteredOptions | async" [value]="animeList">
+        {{animeList}}
+      </mat-option>
+    </mat-autocomplete>
+    <button mat-button matSuffix id="searchButton" color="basic" onclick="performSearch">Search</button>
     </mat-form-field>
 </div>
 Filters (optional)
