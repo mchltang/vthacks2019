@@ -9,18 +9,22 @@ import { InputParametersService } from './../input-parameters.service';
   styleUrls: ['./menu-bar.component.css']
 })
 export class MenuBarComponent implements OnInit {
-
-  data1:any = [];
-
+  animeList:any = [];
+  arguments: String;
   constructor(private inputService: InputParametersService ) { }
 
-  ngOnInit() {
-    this.data1 = this.getParams();
-    console.log(this.data1);
+  ngOnInit() { //runs on load
+    this.animeList = this.getAnimeList();
+    console.log(this.animeList);
+  }
+  getRecommendations() { //only runs when when user submits
+    this.arguments = 'get-recommendations';
+    this.arguments += '?animeName=' + this.selected;
+    return this.inputService.getRecommendations(this.arguments);
   }
 
-  getParams() {
-    return this.inputService.getParams('get-recommendations');
+  getAnimeList() { //runs on ignite and on trigger reset
+    return this.inputService.getAnimeList('getAnimeList');
     // console.log(this.data1);
   }
   selected: string;

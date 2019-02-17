@@ -14,8 +14,12 @@ export class InputParametersService implements OnInit{
   ngOnInit() {
 
   }
+  getRecommendations(subPath) {
+    this.url += subPath;
+    return this.http.get(this.url);
+  }
 
-  getParams(subPath) {
+  getAnimeList(subPath) {
     this.url += subPath;
     console.log(this.url);
     return this.http.get(this.url);
