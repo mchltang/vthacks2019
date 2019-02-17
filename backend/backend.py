@@ -38,6 +38,10 @@ def getRecommendations():
 
 
 def doRecommendations(title, scoreThreshold = 0., isTV = "no", isCompleted = "no"):
+    # check parameters
+    if(isinstance(scoreThreshold, str)):
+        scoreThreshold = float(scoreThreshold)
+
     ### 1: LIBRARIES
 
     import json
