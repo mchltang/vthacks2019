@@ -6,7 +6,6 @@ pip install -r requirements.txt
 FLASK_APP=backend.py FLASK_DEBUG=1 python -m flask run
 
 HOW TO INSTALL FRONTEND DEPENDENCIES AND RUN FRONTEND:
-cd ..
 cd anime-list-app
 npm install
 ng serve --open
