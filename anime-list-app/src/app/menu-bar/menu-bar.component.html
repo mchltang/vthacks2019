@@ -3,11 +3,28 @@
 </p> -->
 
 <div class="alert alert-danger" *ngIf="noResult">No Results Found</div>
+<div class="searchBox">
+  <form class="example-form">
+    <mat-form-field class="example-full-width">
+      <input matInput placeholder="Search anime titles"
+             [(ngModel)]="selected"
+             [typeahead]="data1"
+             (typeaheadNoResults)="typeaheadNoResults($event)"
+             [typeaheadScrollable]="true">
 
-<input class=searchBox
+      <button mat-button matSuffix id="searchButton" color="basic" onclick="performSearch">Search</button>
+    </mat-form-field>
+  </form>
+</div>
+
+<!-- <input class="searchBox"
        [(ngModel)]="selected"
        [typeahead]="data1"
        (typeaheadNoResults)="typeaheadNoResults($event)"
        [typeaheadScrollable]="true"
        placeholder = "Search Anime titles"
-       container="body">
+       container="body"> -->
+
+<div class="searchOptions">
+  <mat-button-toggle color="primary" value="showFilters">Show Filters</mat-button-toggle>
+</div>
