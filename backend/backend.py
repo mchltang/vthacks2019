@@ -37,7 +37,7 @@ def getRecommendations():
     return doRecommendations(animeName)
 
 
-def doRecommendations(title, scoreThreshold = 0, isTV = False, isCompleted = False):
+def doRecommendations(title, scoreThreshold = 0., isTV = "no", isCompleted = "no"):
     ### 1: LIBRARIES
 
     import json
@@ -189,10 +189,20 @@ def doRecommendations(title, scoreThreshold = 0, isTV = False, isCompleted = Fal
         # remove all shows with score below score threshold
         scoreFiltered = [i for i in allSortedIndicies if anime['score'][i] >= scoreThreshold]
 
-        # TODO: do the other filtering here
+        # do we only include TV shows?
+        if(isTV == "yes"):
+            tvFiltered = [i for i in scoreFiltered if anime['type'][i] == "TV"]
+        else:
+            tvFiltered = scoreFiltered
+
+        # do we only include completed shows?
+        if (isCompleted == "yes"):
+            completedFiltered = [i for i in tvFiltered if anime['status'][i] == "Finished Airing"]
+        else:
+            completedFiltered = tvFiltered
 
         # only grab the top numberOfRecommendations # of shows
-        numFiltered = [i for i in scoreFiltered[1 : min(len(scoreFiltered), numberOfRecommendations + 1)]]
+        numFiltered = [i for i in completedFiltered[1 : min(len(completedFiltered), numberOfRecommendations + 1)]]
 
         # return anime names
         return json.dumps((anime['name'].iloc[numFiltered]).tolist()) # do this so we are sending a python list to the frontend
